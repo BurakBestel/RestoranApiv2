@@ -16,8 +16,8 @@ namespace RestoranAPiV2.Mapping
 
             CreateMap<Message, ResultMessageDto>().ReverseMap();
             CreateMap<Message, CreateMessageDto>().ReverseMap();
-            CreateMap<Feature, GetByIdMessageDto>().ReverseMap();
-            CreateMap<Feature, UpdateMessageDto>().ReverseMap();
+            CreateMap<Message, GetByIdMessageDto>().ReverseMap();
+            CreateMap<Message, UpdateMessageDto>().ReverseMap();
 
         }
     }

@@ -27,12 +27,12 @@ namespace RestoranAPiV2.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateMessage(CreateMessageDto createMessageDto)
+        public IActionResult CreateMessage([FromBody]CreateMessageDto createMessageDto)
         {
             var result = _mapper.Map<Message>(createMessageDto);
             _context.Messages.Add(result);
             _context.SaveChanges();
-            return Ok("Mesaj Ekleme işlemi yapıldı");
+            return Ok(result);
         }
         [HttpDelete]
         public IActionResult DeleteMessage(int id)
@@ -49,7 +49,13 @@ namespace RestoranAPiV2.Controllers
             return Ok(_mapper.Map<GetByIdMessageDto>(value)); 
         }
         [HttpPut]
-        public IActionResult updateMessage()
+        public IActionResult UpdateMessage(UpdateMessageDto updateMessageDto)
+        {
+            var value = _mapper.Map<Message>(updateMessageDto);
+            _context.Messages.Add(value);
+            _context.SaveChanges();
+            return Ok("Mesaj güncelleme başarılı");
+        }
         
     }
 }
