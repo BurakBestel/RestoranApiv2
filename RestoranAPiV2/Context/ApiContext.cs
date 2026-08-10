@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestoranAPiV2.Entities;
+using RestoranAPiV2.WebApi.Entities;
 
 namespace RestoranAPiV2.Context
 {
@@ -16,9 +17,11 @@ namespace RestoranAPiV2.Context
         public DbSet<Feature> Features { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<Product> products { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
+        public DbSet<RestoranEvent> RestoranEvents { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

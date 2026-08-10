@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RestoranAPiV2.Context;
+using RestoranAPiV2.Dtos.FeatureDtos;
 using RestoranAPiV2.Entities;
+using RestoranAPiV2.WebApi.Dtos.CategoryDtos;
 
 namespace RestoranAPiV2.Controllers
 {
@@ -9,11 +13,13 @@ namespace RestoranAPiV2.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly ApiContext _Context;
 
-        public CategoriesController(ApiContext context)
+        public CategoriesController(ApiContext context, IMapper mapper)
         {
             _Context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -25,9 +31,12 @@ namespace RestoranAPiV2.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCategory(Category category)
+        public IActionResult CreateCategory(CreateCategoryDto createCategoryDto)
         {
-            _Context.Categories.Add(category);
+            
+
+            var result = _mapper.Map<Category>(createCategoryDto);
+            _Context.Categories.Add(result);
             _Context.SaveChanges();
             return Ok("Kategori Ekleme Başarılı");
         }

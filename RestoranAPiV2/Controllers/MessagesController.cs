@@ -56,6 +56,12 @@ namespace RestoranAPiV2.Controllers
             _context.SaveChanges();
             return Ok("Mesaj güncelleme başarılı");
         }
-        
+
+        [HttpGet("MessageListbyIsReadFalse")]
+        public IActionResult MessageListbyIsReadFalse()
+        {
+            var value = _context.Messages.Where(x => x.IsRead==false).ToList();
+            return Ok(value);
+        }
     }
 }

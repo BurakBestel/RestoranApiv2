@@ -1,7 +1,11 @@
 using System.Reflection;
 using AutoMapper;
+using FluentValidation;
+using Microsoft.Extensions.Options;
 using RestoranAPiV2.Context;
+using RestoranAPiV2.Entities;
 using RestoranAPiV2.Mapping;
+using RestoranAPiV2.ValidationRules;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<ApiContext>();
 
+builder.Services.AddScoped<IValidator<Product>,ProductValidator>();
 builder.Services.AddAutoMapper(typeof(GeneralMapping));
 
 builder.Services.AddControllers();

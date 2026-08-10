@@ -22,7 +22,7 @@ namespace RestoranAPiV2.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("RestoranAPiV2.Controllers.Entities.Category", b =>
+            modelBuilder.Entity("RestoranAPiV2.Entities.Category", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace RestoranAPiV2.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("RestoranAPiV2.Controllers.Entities.Chef", b =>
+            modelBuilder.Entity("RestoranAPiV2.Entities.Chef", b =>
                 {
                     b.Property<int>("ChefId")
                         .ValueGeneratedOnAdd()
@@ -68,7 +68,7 @@ namespace RestoranAPiV2.Migrations
                     b.ToTable("Chefs");
                 });
 
-            modelBuilder.Entity("RestoranAPiV2.Controllers.Entities.Contact", b =>
+            modelBuilder.Entity("RestoranAPiV2.Entities.Contact", b =>
                 {
                     b.Property<int>("ContactId")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace RestoranAPiV2.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("RestoranAPiV2.Controllers.Entities.Feature", b =>
+            modelBuilder.Entity("RestoranAPiV2.Entities.Feature", b =>
                 {
                     b.Property<int>("FeatureId")
                         .ValueGeneratedOnAdd()
@@ -134,7 +134,7 @@ namespace RestoranAPiV2.Migrations
                     b.ToTable("Features");
                 });
 
-            modelBuilder.Entity("RestoranAPiV2.Controllers.Entities.Image", b =>
+            modelBuilder.Entity("RestoranAPiV2.Entities.Image", b =>
                 {
                     b.Property<int>("ImageId")
                         .ValueGeneratedOnAdd()
@@ -155,7 +155,7 @@ namespace RestoranAPiV2.Migrations
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("RestoranAPiV2.Controllers.Entities.Message", b =>
+            modelBuilder.Entity("RestoranAPiV2.Entities.Message", b =>
                 {
                     b.Property<int>("MessageId")
                         .ValueGeneratedOnAdd()
@@ -190,13 +190,16 @@ namespace RestoranAPiV2.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("RestoranAPiV2.Controllers.Entities.Product", b =>
+            modelBuilder.Entity("RestoranAPiV2.Entities.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
+
+                    b.Property<int?>("CategoryID")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -215,10 +218,12 @@ namespace RestoranAPiV2.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("products");
+                    b.HasIndex("CategoryID");
+
+                    b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("RestoranAPiV2.Controllers.Entities.Reservation", b =>
+            modelBuilder.Entity("RestoranAPiV2.Entities.Reservation", b =>
                 {
                     b.Property<int>("ReservationId")
                         .ValueGeneratedOnAdd()
@@ -261,7 +266,7 @@ namespace RestoranAPiV2.Migrations
                     b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("RestoranAPiV2.Controllers.Entities.Service", b =>
+            modelBuilder.Entity("RestoranAPiV2.Entities.Service", b =>
                 {
                     b.Property<int>("ServiceId")
                         .ValueGeneratedOnAdd()
@@ -286,7 +291,7 @@ namespace RestoranAPiV2.Migrations
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("RestoranAPiV2.Controllers.Entities.Testimonial", b =>
+            modelBuilder.Entity("RestoranAPiV2.Entities.Testimonial", b =>
                 {
                     b.Property<int>("TestimonialId")
                         .ValueGeneratedOnAdd()
@@ -313,6 +318,78 @@ namespace RestoranAPiV2.Migrations
                     b.HasKey("TestimonialId");
 
                     b.ToTable("Testimonials");
+                });
+
+            modelBuilder.Entity("RestoranAPiV2.WebApi.Entities.Notification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IconUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("NotificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("NotificationId");
+
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("RestoranAPiV2.WebApi.Entities.RestoranEvent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RestoranEvents");
+                });
+
+            modelBuilder.Entity("RestoranAPiV2.Entities.Product", b =>
+                {
+                    b.HasOne("RestoranAPiV2.Entities.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryID");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("RestoranAPiV2.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
