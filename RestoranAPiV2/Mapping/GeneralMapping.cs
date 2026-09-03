@@ -31,6 +31,7 @@ namespace RestoranAPiV2.Mapping
             CreateMap<Notification, UpdateNotificationDto>().ReverseMap();
 
             CreateMap<Category, CreateCategoryDto>().ReverseMap();
+            CreateMap<Category, UpdateCategoryDto>().ReverseMap();
         }
     }
 }

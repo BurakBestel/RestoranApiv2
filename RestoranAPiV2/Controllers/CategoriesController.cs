@@ -56,9 +56,10 @@ namespace RestoranAPiV2.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateCategory(Category category)
+        public IActionResult UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
-            _Context.Categories.Update(category);
+            var value = _mapper.Map<Category>(updateCategoryDto);
+            _Context.Categories.Update(value);
             _Context.SaveChanges();
             return Ok("Kategori güncellendi");
             
